@@ -47,34 +47,34 @@ Install netbox debian 12
     sudo nano /etc/apache2/sites-available/netbox.conf
 
 # Ajoutez le contenu suivant dans ce fichier :
-<VirtualHost *:80>
-    ServerName netbox.example.com  # Remplacez par votre nom de domaine ou adresse IP
-    DocumentRoot /opt/netbox/netbox/static/
+    <VirtualHost *:80>
+        ServerName netbox.example.com  # Remplacez par votre nom de domaine ou adresse IP
+        DocumentRoot /opt/netbox/netbox/static/
     
-    Alias /static/ /opt/netbox/netbox/static/
-    Alias /media/ /opt/netbox/netbox/media/
+        Alias /static/ /opt/netbox/netbox/static/
+        Alias /media/ /opt/netbox/netbox/media/
     
-    <Directory /opt/netbox/netbox/static>
-        Require all granted
-    </Directory>
-    
-    <Directory /opt/netbox/netbox/media>
-        Require all granted
-    </Directory>
-    
-    <Directory /opt/netbox/netbox/netbox>
-        <Files wsgi.py>
+        <Directory /opt/netbox/netbox/static>
             Require all granted
-        </Files>
-    </Directory>
+        </Directory>
+        
+        <Directory /opt/netbox/netbox/media>
+            Require all granted
+        </Directory>
     
-    WSGIDaemonProcess netbox python-home=/opt/netbox/venv python-path=/opt/netbox
-    WSGIProcessGroup netbox
-    WSGIScriptAlias / /opt/netbox/netbox/netbox/wsgi.py
+        <Directory /opt/netbox/netbox/netbox>
+            <Files wsgi.py>
+                Require all granted
+            </Files>
+        </Directory>
     
-    ErrorLog ${APACHE_LOG_DIR}/netbox_error.log
-    CustomLog ${APACHE_LOG_DIR}/netbox_access.log combined
-</VirtualHost>
+        WSGIDaemonProcess netbox python-home=/opt/netbox/venv python-path=/opt/netbox
+        WSGIProcessGroup netbox
+        WSGIScriptAlias / /opt/netbox/netbox/netbox/wsgi.py
+    
+        ErrorLog ${APACHE_LOG_DIR}/netbox_error.log
+        CustomLog ${APACHE_LOG_DIR}/netbox_access.log combined
+    </VirtualHost>
 
 # Activer le virtual host :
       sudo a2ensite netbox.conf
